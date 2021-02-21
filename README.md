@@ -7,14 +7,14 @@ This tool allows extract all Composer and NPM dependencies in a cool format.
 ## How it works ⚙️
 Hermes works typing in CLI: 
 
-- In windows: `vendor\bin\hermes`
+- In windows: `vendor\\bin\\hermes`
 - In linux: `vendor/bin/hermes`
 
 The followings arguments can be added:
 
-`-c`: Extract Composer dependencies into a markdown file.
+`-c` or `--composer`: Extract Composer dependencies into a markdown file.
 
-`-p`: Extract NPM dependencies into a markdown file.
+`-p` or `--package`: Extract NPM dependencies into a markdown file.
 
 `--path`: Path can be changed if your project has submodules.
 
