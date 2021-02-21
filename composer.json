@@ -1,0 +1,30 @@
+{
+  "name": "hermes/dependencies",
+  "description": "Dependencies handler for composer and package",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Germán Boquizo Sánchez",
+      "email": "germanboquizosanchez@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0",
+    "mcstreetguy/composer-parser": "^1.1",
+    "tightenco/collect": "^7.19",
+    "laravel/helpers": "^1.2",
+    "midnite81/json-parser": "^1.0"
+  },
+  "keywords": [
+    "documentation",
+    "dependencies"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Hermes\\": "src/"
+    }
+  }
+}
