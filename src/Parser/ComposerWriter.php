@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Hermes\Parser;
 
-use Hermes\Formatter\MarkdownFormatter;
 use MCStreetguy\ComposerParser\ComposerJson;
 use MCStreetguy\ComposerParser\Factory as ComposerParser;
 use MCStreetguy\ComposerParser\Lockfile;
-use Tightenco\Collect\Support\Collection;
+use MCStreetguy\ComposerParser\Service\PackageMap;
 
 class ComposerWriter extends Writer
 {
@@ -37,38 +36,28 @@ class ComposerWriter extends Writer
         foreach ($values as $key => $value) {
             $type = $key === 'normal' ? '' : $key;
 
-            $dependencies = $this->dependencies($type);
-
-            if ($dependencies->isNotEmpty()) {
-                $this->write($value);
-                $this->writeln();
-            }
-
-            $dependencies->each(fn (string $version, string $name) => $this->write(
-                MarkdownFormatter::formatDependency($name, $version, 'composer')
-            ));
-
-            if ($dependencies->isNotEmpty()) {
-                $this->writeln();
-            }
+            $this->writeDependencies($this->dependencies($type), $value, 'composer');
         }
     }
 
-    private function dependencies(string $type = ''): Collection
+    private function dependencies(string $type = ''): array
     {
         $locker = $this->lockFileVersions($type);
 
         $requires = $this->jsonFile->{"getRequire{$type}"}()->getData();
 
-        return $locker->intersectByKeys($requires);
+        return array_intersect_key($locker, $requires);
     }
 
-    private function lockFileVersions(string $type): Collection
+    private function lockFileVersions(string $type): array
     {
-        $collection = new Collection($this->lockFile->{"getPackages{$type}"}());
+        /** @var PackageMap $array */
+        $array = $this->lockFile->{"getPackages{$type}"}();
 
-        return $collection->map(fn (array $item): array => [
-            $item['version']['name'] => $item['version']['version'],
-        ])->collapse();
+        $mapping = static fn (array $item): array => [
+            $item['name'] => $item['version'],
+        ];
+
+        return array_collapse(array_map($mapping, $array->getData()));
     }
 }
