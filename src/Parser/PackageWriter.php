@@ -39,7 +39,7 @@ class PackageWriter extends Writer
 
     private function decodedFile(string $path)
     {
-        $filename = "{$path}\\package.json";
+        $filename = "{$path}/package.json";
 
         if (! file_exists($filename)) {
             throw new \RuntimeException("Not found {$filename}");
