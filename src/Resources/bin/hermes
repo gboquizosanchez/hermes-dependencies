@@ -26,6 +26,6 @@ if (isset($arguments['composer']) || isset($arguments['c'])) {
 }
 
 if (isset($arguments['package']) || isset($arguments['p'])) {
-    (new PackageWriter(($arguments['path'] ?? ''), ($arguments['output'] ?? 'DEPENDENCIES')))->parse();
+    (new PackageWriter(($arguments['path'] ?? dirname(__DIR__, 6)), ($arguments['output'] ?? 'DEPENDENCIES')))->parse();
 }
 
