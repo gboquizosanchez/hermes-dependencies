@@ -5,21 +5,21 @@
 use Hermes\Parser\ComposerWriter;
 use Hermes\Parser\PackageWriter;
 
-//function includeIfExists(string $file): bool
-//{
-//    return file_exists($file) && include $file;
-//}
-//
-//if (
-//    !includeIfExists(__DIR__ . '/../../../../autoload.php') &&
-//    !includeIfExists(__DIR__ . '/../../vendor/autoload.php') &&
-//    !includeIfExists(__DIR__ . '/../../../../../../vendor/autoload.php')
-//) {
-//    fwrite(STDERR, 'Install dependencies using Composer.' . PHP_EOL);
-//    exit(1);
-//}
+function includeIfExists(string $file): bool
+{
+    return file_exists($file) && include $file;
+}
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+if (
+    !includeIfExists(__DIR__ . '/../../../../autoload.php') &&
+    !includeIfExists(__DIR__ . '/../../vendor/autoload.php') &&
+    !includeIfExists(__DIR__ . '/../../../../../../vendor/autoload.php')
+) {
+    fwrite(STDERR, 'Install dependencies using Composer.' . PHP_EOL);
+    exit(1);
+}
+
+//require dirname(__DIR__) . '/vendor/autoload.php';
 
 $arguments = getopt('cp', ['composer', 'package', 'path::', 'output::']);
 

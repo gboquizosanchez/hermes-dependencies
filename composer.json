@@ -26,5 +26,8 @@
     "psr-4": {
       "Hermes\\": "src/"
     }
-  }
+  },
+  "bin": [
+    "src/Resources/bin/hermes"
+  ]
 }
