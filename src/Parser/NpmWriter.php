@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Hermes\Parser;
 
+use Hermes\Exceptions\NotFoundFilename;
+use Hermes\Utilities\PackageType;
 use Midnite81\JsonParser\JsonParse;
 
-class PackageWriter extends Writer
+class NpmWriter extends Writer
 {
-    /**
-     * @var object
-     */
-    private $jsonFile;
+    private object $jsonFile;
 
-    public function __construct(string $path, string $output)
+    public function init(): void
     {
-        parent::__construct($path, $output);
+        parent::init();
 
         try {
-            $this->jsonFile = $this->decodedFile($path);
+            $this->jsonFile = $this->decodedFile($this->path);
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
@@ -27,12 +26,19 @@ class PackageWriter extends Writer
     public function parse(): void
     {
         if (isset($this->jsonFile)) {
-            $values = ['normal' => '### NPM dependencies 📦', 'dev' => '#### Develop dependencies 🔧'];
+            $values = [
+                'normal' => '### NPM dependencies 📦',
+                'dev' => '#### Develop dependencies 🔧'
+            ];
 
             foreach ($values as $key => $value) {
                 $type = $key === 'normal' ? '' : $key;
 
-                $this->writeDependencies($this->dependencies($type), $value, 'npm');
+                $this->writeDependencies(
+                    $this->dependencies($type),
+                    $value,
+                    PackageType::NPM,
+                );
             }
         }
     }
@@ -42,7 +48,7 @@ class PackageWriter extends Writer
         $filename = "{$path}/package.json";
 
         if (! file_exists($filename)) {
-            throw new \RuntimeException("Not found {$filename}");
+            throw new NotFoundFilename("Not found {$filename}");
         }
 
         $file = file_get_contents($filename);
@@ -53,6 +59,10 @@ class PackageWriter extends Writer
     private function dependencies(string $type): array
     {
         $attribute = $type === 'dev' ? 'devDependencies' : 'dependencies';
+
+        if (! property_exists($this->jsonFile, $attribute)) {
+            return [];
+        }
 
         return (array) $this->jsonFile->$attribute;
     }
