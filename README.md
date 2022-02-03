@@ -16,15 +16,16 @@ The followings arguments can be added:
 
 `-p` or `--package`: Extract NPM dependencies into a markdown file.
 
+`-a` or `--all`: Extract NPM dependencies and composer dependencies into a markdown file.
+
 `--path`: Path can be changed if your project has submodules.
 
 `--output`: Output is configurable to be extract where it wants.
 
 ### PHP dependencies 📦
-- Laravel Helpers [![Latest Stable Version](https://img.shields.io/badge/stable-v1.4.0-blue)](https://packagist.org/packages/laravel/helpers)
+- Laravel Helpers [![Latest Stable Version](https://img.shields.io/badge/stable-v1.5.0-blue)](https://packagist.org/packages/laravel/helpers)
 - Mcstreetguy Composer Parser [![Latest Stable Version](https://img.shields.io/badge/stable-v1.1.0-blue)](https://packagist.org/packages/mcstreetguy/composer-parser)
 - Midnite81 Json Parser [![Latest Stable Version](https://img.shields.io/badge/stable-v1.0.1-blue)](https://packagist.org/packages/midnite81/json-parser)
-- Symfony Var Dumper [![Latest Stable Version](https://img.shields.io/badge/stable-v5.2.1-blue)](https://packagist.org/packages/symfony/var-dumper)
 - Tightenco Collect [![Latest Stable Version](https://img.shields.io/badge/stable-v7.26.1-blue)](https://packagist.org/packages/tightenco/collect)
 
 ## Authors ✒️
