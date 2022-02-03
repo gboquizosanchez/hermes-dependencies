@@ -4,17 +4,26 @@ declare(strict_types=1);
 
 namespace Hermes\Formatter;
 
+use Hermes\Utilities\PackageType;
+
 class MarkdownFormatter
 {
-    public static function formatDependency(string $name, string $version, string $type): string
-    {
-        $link = $type === 'npm' ? "https://www.npmjs.com/package/" : "https://packagist.org/packages/";
+    public static function formatDependency(
+        string $name,
+        string $version,
+        string $type
+    ): string {
+        $link = PackageType::isNpm($type)
+            ? "https://www.npmjs.com/package/"
+            : "https://packagist.org/packages/";
 
         $badge = self::establishBadge($version);
 
         $title = self::establishTitle($name);
 
-        $markdown = "[![Latest Stable Version](https://img.shields.io/badge/{$badge})]({$link}{$name})";
+        $markdown = <<<MARKDOWN
+[![Latest Stable Version](https://img.shields.io/badge/{$badge})]({$link}{$name})
+MARKDOWN;
 
         return "- {$title} {$markdown}" . PHP_EOL;
     }
@@ -36,6 +45,14 @@ class MarkdownFormatter
 
     private static function establishTitle(string $name): string
     {
-        return str_replace('At ', '@', (ucfirst(title_case(str_slug(str_replace('/', '-', $name), ' ')))));
+        $slashedName = str_replace('/', '-', $name);
+
+        $sluggedName = str_slug($slashedName, ' ');
+
+        $titledName = title_case($sluggedName);
+
+        $ucFirstName = ucfirst($titledName);
+
+        return str_replace('At ', '@', $ucFirstName);
     }
 }

@@ -3,7 +3,9 @@
 <?php
 
 use Hermes\Parser\ComposerWriter;
-use Hermes\Parser\PackageWriter;
+use Hermes\Parser\NpmWriter;
+use Hermes\Utilities\ArgsChecker;
+use Hermes\Utilities\PackageType;
 
 function includeIfExists(string $file): bool
 {
@@ -19,13 +21,40 @@ if (
     exit(1);
 }
 
-$arguments = getopt('cp', ['composer', 'package', 'path::', 'output::']);
+$opts = ['composer', 'package', 'all', 'path::', 'output::'];
 
-if (isset($arguments['composer']) || isset($arguments['c'])) {
-    (new ComposerWriter(($arguments['path'] ?? '.'), ($arguments['output'] ?? 'DEPENDENCIES')))->parse();
+$arguments = getopt('cpa', $opts);
+
+$path = $arguments['path'] ?? null;
+$output = $arguments['output'] ?? 'DEPENDENCIES';
+
+$composerWriter = new ComposerWriter($path ?? '.', $output);
+$npmWriter = new NpmWriter($path ?? dirname(__DIR__, 6), $output);
+
+$writers = [
+    PackageType::NPM => $npmWriter,
+    PackageType::COMPOSER => $composerWriter,
+];
+
+$packages = PackageType::values();
+
+foreach ($packages as $package) {
+    $type = "is" . ucfirst($package);
+    $writer = $writers[$package];
+
+    if (ArgsChecker::$type($arguments)) {
+        $writer->init();
+        $writer->parse();
+    }
 }
 
-if (isset($arguments['package']) || isset($arguments['p'])) {
-    (new PackageWriter(($arguments['path'] ?? dirname(__DIR__, 6)), ($arguments['output'] ?? 'DEPENDENCIES')))->parse();
-}
+if (ArgsChecker::isAll($arguments)) {
+    foreach ($packages as $package) {
+        $upperPackage = strtoupper($package);
+        $writer = $writers[$package];
 
+        $writer->setOutput($upperPackage);
+        $writer->init();
+        $writer->parse();
+    }
+}
