@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hermes\Parser;
 
+use Exception;
 use Hermes\Exceptions\NotFoundFilename;
 use Hermes\Utilities\PackageType;
 use Midnite81\JsonParser\JsonParse;
@@ -18,7 +19,7 @@ class NpmWriter extends Writer
 
         try {
             $this->jsonFile = $this->decodedFile($this->path);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             echo $exception->getMessage();
         }
     }
