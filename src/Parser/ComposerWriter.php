@@ -37,7 +37,7 @@ class ComposerWriter extends Writer
             $this->writeDependencies(
                 $this->dependencies($type),
                 $value,
-                PackageType::COMPOSER,
+                PackageType::Composer->value,
             );
         }
     }

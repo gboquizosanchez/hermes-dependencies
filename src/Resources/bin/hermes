@@ -32,8 +32,8 @@ $composerWriter = new ComposerWriter($path ?? '.', $output);
 $npmWriter = new NpmWriter($path ?? dirname(__DIR__, 6), $output);
 
 $writers = [
-    PackageType::NPM => $npmWriter,
-    PackageType::COMPOSER => $composerWriter,
+    PackageType::Npm->value => $npmWriter,
+    PackageType::Composer->value => $composerWriter,
 ];
 
 $packages = PackageType::values();

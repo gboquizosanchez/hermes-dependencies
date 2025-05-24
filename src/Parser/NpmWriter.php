@@ -37,7 +37,7 @@ class NpmWriter extends Writer
                 $this->writeDependencies(
                     $this->dependencies($type),
                     $value,
-                    PackageType::NPM,
+                    PackageType::Npm->value,
                 );
             }
         }
