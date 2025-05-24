@@ -21,6 +21,11 @@ class ArgsChecker
         return self::checker($arguments, 'a', 'all');
     }
 
+    public static function isHelp(array $arguments): bool
+    {
+        return self::checker($arguments, 'h', 'help');
+    }
+
     private static function checker(
         array $arguments,
         string $short,

@@ -6,7 +6,4 @@ namespace Hermes\Exceptions;
 
 use RuntimeException;
 
-class NotFoundFilename extends RuntimeException
-{
-    // Silence is golden.
-}
+class NotFoundFilename extends RuntimeException {}

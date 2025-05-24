@@ -5,6 +5,7 @@
 use Hermes\Parser\ComposerWriter;
 use Hermes\Parser\NpmWriter;
 use Hermes\Utilities\ArgsChecker;
+use Hermes\Utilities\Help;
 use Hermes\Utilities\PackageType;
 
 function includeIfExists(string $file): bool
@@ -21,19 +22,30 @@ if (
     exit(1);
 }
 
-$opts = ['composer', 'package', 'all', 'path::', 'output::'];
+$opts = [
+    'composer',
+    'package',
+    'all',
+    'path::',
+    'output::',
+    'help',
+];
 
-$arguments = getopt('cpa', $opts);
+$arguments = getopt('cpah', $opts);
 
 $path = $arguments['path'] ?? null;
 $output = $arguments['output'] ?? 'DEPENDENCIES';
+
+if (ArgsChecker::isHelp($arguments)) {
+    Help::execute();
+}
 
 $composerWriter = new ComposerWriter($path ?? '.', $output);
 $npmWriter = new NpmWriter($path ?? dirname(__DIR__, 6), $output);
 
 $writers = [
-    PackageType::NPM => $npmWriter,
-    PackageType::COMPOSER => $composerWriter,
+    PackageType::Npm->value => $npmWriter,
+    PackageType::Composer->value => $composerWriter,
 ];
 
 $packages = PackageType::values();
