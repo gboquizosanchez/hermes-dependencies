@@ -23,7 +23,7 @@ class ArgsChecker
 
     public static function isHelp(array $arguments): bool
     {
-        return self::checker($arguments, 'h', 'help');
+        return self::checker($arguments, 'h', 'help') || $arguments === [];
     }
 
     private static function checker(
