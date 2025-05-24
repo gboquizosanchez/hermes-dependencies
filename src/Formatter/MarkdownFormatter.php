@@ -32,8 +32,8 @@ MARKDOWN;
     {
         $badge = "stable-{$version}-blue";
 
-        if ($version === 'dev-master') {
-            return 'master-master-red';
+        if ($version === 'dev-latest' || $version === 'dev-master') {
+            $badge = "{$version}-red";
         }
 
         if (str_contains($version, 'beta')) {
