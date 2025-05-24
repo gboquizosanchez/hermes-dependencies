@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Hermes\Parser;
 
+use Hermes\Utilities\Composer\ComposerJson;
+use Hermes\Utilities\Composer\LockFile;
+use Hermes\Utilities\ComposerParser;
 use Hermes\Utilities\PackageType;
-use MCStreetguy\ComposerParser\ComposerJson;
-use MCStreetguy\ComposerParser\Factory as ComposerParser;
-use MCStreetguy\ComposerParser\Lockfile;
-use MCStreetguy\ComposerParser\Service\PackageMap;
 
 class ComposerWriter extends Writer
 {
     private ComposerJson $jsonFile;
 
-    private Lockfile $lockFile;
+    private LockFile $lockFile;
 
     public function init(): void
     {
@@ -32,10 +31,8 @@ class ComposerWriter extends Writer
         ];
 
         foreach ($values as $key => $value) {
-            $type = $key === 'normal' ? '' : $key;
-
             $this->writeDependencies(
-                $this->dependencies($type),
+                $this->dependencies($key),
                 $value,
                 PackageType::Composer->value,
             );
@@ -46,20 +43,19 @@ class ComposerWriter extends Writer
     {
         $locker = $this->lockFileVersions($type);
 
-        $requires = $this->jsonFile->{"getRequire{$type}"}()->getData();
+        $requires = $this->jsonFile->{$type};
 
-        return array_intersect_key($locker, $requires);
+        return array_intersect_key($locker, $requires ?? []);
     }
 
     private function lockFileVersions(string $type): array
     {
-        /** @var PackageMap $array */
-        $array = $this->lockFile->{"getPackages{$type}"}();
+        $array = $this->lockFile->{$type};
 
         $mapping = static fn (array $item): array => [
             $item['name'] => $item['version'],
         ];
 
-        return array_collapse(array_map($mapping, $array->getData()));
+        return array_merge(...array_map($mapping, $array ?? []));
     }
 }

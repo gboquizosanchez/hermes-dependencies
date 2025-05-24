@@ -6,8 +6,8 @@ namespace Hermes\Parser;
 
 use Exception;
 use Hermes\Exceptions\NotFoundFilename;
+use Hermes\Utilities\JsonParse;
 use Hermes\Utilities\PackageType;
-use Midnite81\JsonParser\JsonParse;
 
 class NpmWriter extends Writer
 {

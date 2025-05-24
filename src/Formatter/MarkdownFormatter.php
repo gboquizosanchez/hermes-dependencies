@@ -47,9 +47,9 @@ MARKDOWN;
     {
         $slashedName = str_replace('/', '-', $name);
 
-        $sluggedName = str_slug($slashedName, ' ');
+        $sluggedName = str_replace('-', ' ', $slashedName);
 
-        $titledName = title_case($sluggedName);
+        $titledName = ucwords($sluggedName);
 
         $ucFirstName = ucfirst($titledName);
 

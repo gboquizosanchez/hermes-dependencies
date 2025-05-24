@@ -23,12 +23,6 @@ The following arguments can be added:
 
 `--output`: Output is configurable to be extract where it wants.
 
-### PHP dependencies 📦
-- Laravel Helpers [![Latest Stable Version](https://img.shields.io/badge/stable-v1.5.0-blue)](https://packagist.org/packages/laravel/helpers)
-- Mcstreetguy Composer Parser [![Latest Stable Version](https://img.shields.io/badge/stable-v1.1.0-blue)](https://packagist.org/packages/mcstreetguy/composer-parser)
-- Midnite81 Json Parser [![Latest Stable Version](https://img.shields.io/badge/stable-v1.0.1-blue)](https://packagist.org/packages/midnite81/json-parser)
-- Tightenco Collect [![Latest Stable Version](https://img.shields.io/badge/stable-v7.26.1-blue)](https://packagist.org/packages/tightenco/collect)
-
 ## Authors ✒️
 This project was made by:
 
